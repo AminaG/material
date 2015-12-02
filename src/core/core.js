@@ -10,7 +10,27 @@ angular
     'material.core.gestures',
     'material.core.theming'
   ])
-  .config(MdCoreConfigure);
+  .config(MdCoreConfigure)
+  .run(DetectNgTouch);
+
+
+/**
+ * Detect if the ng-Touch module is also being used.
+ * Warn if detected.
+ */
+function DetectNgTouch($log) {
+  try {
+    var module = angular.module('ngTouch');
+    if ( module ) {
+      var msg = "" +
+        "You are using the ngTouch module. \n" +
+        "Angular Material already has mobile click, tap, and swipe support... \n" +
+        "ngTouch is not supported with Angular Material!";
+      $log.warn(msg);
+    }
+  } catch( e ) { ; }
+}
+
 
 function MdCoreConfigure($provide, $mdThemingProvider) {
 
